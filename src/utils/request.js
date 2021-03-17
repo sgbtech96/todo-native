@@ -17,7 +17,7 @@ async function makeAPIRequest(method, url, data) {
   const token = await AsyncStorage.getItem("id_token");
   const config = {
     method,
-    url: `http://192.168.43.35:8000${url}`,
+    url: `https://todo-provider-node.herokuapp.com${url}`,
     headers: token
       ? {
           Authorization: `Bearer ${token}`,
