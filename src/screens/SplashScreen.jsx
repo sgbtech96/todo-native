@@ -4,13 +4,13 @@ import { StyleSheet, View, Text, Button } from "react-native";
 import { setUserProfile } from "../redux/actions/profile";
 import { googleLogin } from "../redux/actions/auth";
 import { connect } from "react-redux";
+import ENV from "../../config";
 
 const SplashScreen = ({ navigation, setUserProfile, googleLogin }) => {
   async function signInWithGoogleAsync() {
     try {
       const result = await Google.logInAsync({
-        androidClientId:
-          "606260353641-7ioqhuuoiho24ed2t775cjr07kuihr6g.apps.googleusercontent.com",
+        androidClientId: `${ENV.GOOGLE_ANDROID_CLIENT_ID}`,
         // iosClientId: YOUR_CLIENT_ID_HERE,
         scopes: ["profile", "email"],
       });

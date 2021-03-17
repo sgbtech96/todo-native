@@ -1,0 +1,6 @@
+import {
+  BACKEND_BASE_URL,
+  GOOGLE_ANDROID_CLIENT_ID,
+} from "@env";
+
+export default { BACKEND_BASE_URL, GOOGLE_ANDROID_CLIENT_ID };

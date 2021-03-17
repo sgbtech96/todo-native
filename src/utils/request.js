@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import ENV from "../../config";
 
 export function post(url, data) {
   return makeAPIRequest("POST", url, data).then((res) => res.data);
@@ -17,7 +18,7 @@ async function makeAPIRequest(method, url, data) {
   const token = await AsyncStorage.getItem("id_token");
   const config = {
     method,
-    url: `https://todo-provider-node.herokuapp.com${url}`,
+    url: `${ENV.BACKEND_BASE_URL}${url}`,
     headers: token
       ? {
           Authorization: `Bearer ${token}`,
