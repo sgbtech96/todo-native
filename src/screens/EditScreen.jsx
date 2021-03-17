@@ -12,25 +12,32 @@ import {
   Title,
   Input,
   Item,
+  Spinner,
 } from "native-base";
 import { post, put } from "../utils/request";
+import { connect } from "react-redux";
+import { setSpinner } from "../redux/actions/spinner";
 
-const EditScreen = ({ route, navigation }) => {
+const EditScreen = ({ route, navigation, setSpinner, spinning }) => {
   const { type } = route.params;
   let todo;
   if (type === "edit") todo = route.params.todo;
   const [text, setText] = useState(type === "edit" ? todo.text : "");
   const handleSave = async () => {
+    setSpinner(true);
     try {
       let res;
       if (type === "create") res = await post(`/api/v1/todos/create`, { text });
       else res = await put(`/api/v1/todos/edit/${todo.todoId}`, { text });
+      setSpinner(false);
       if (res.type === "success") navigation.navigate("Todo");
     } catch (e) {
       console.log(e.message);
     }
   };
-  return (
+  return spinning ? (
+    <Spinner color="blue" />
+  ) : (
     <Container>
       <Header>
         <Left>
@@ -62,7 +69,12 @@ const EditScreen = ({ route, navigation }) => {
   );
 };
 
-export default EditScreen;
+const mapStateToProps = (state) => {
+  return {
+    spinning: state.spinning,
+  };
+};
+export default connect(mapStateToProps, { setSpinner })(EditScreen);
 
 const styles = StyleSheet.create({
   container: {

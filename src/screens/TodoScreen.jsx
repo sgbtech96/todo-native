@@ -14,12 +14,14 @@ import {
   Right,
   Title,
   Thumbnail,
+  Spinner,
 } from "native-base";
 import { connect } from "react-redux";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { get, put } from "../utils/request";
 import { setUserProfile } from "../redux/actions/profile";
 import { handleLogout } from "../redux/actions/auth";
+import { setSpinner } from "../redux/actions/spinner";
 
 const TodoScreen = ({
   navigation,
@@ -27,12 +29,16 @@ const TodoScreen = ({
   imageUrl,
   setUserProfile,
   handleLogout,
+  setSpinner,
+  spinning,
 }) => {
   const isFocused = useIsFocused();
   const [todos, setTodos] = useState([]);
   const handleDelete = async (todoId) => {
+    setSpinner(true);
     try {
       const res = await put(`/api/v1/todos/delete/${todoId}`);
+      setSpinner(false);
       if (res.type === "success") {
         const tmpTodos = todos.filter((todo) => todo.todoId !== todoId);
         setTodos(tmpTodos);
@@ -109,7 +115,9 @@ const TodoScreen = ({
     }
   };
 
-  return (
+  return spinning ? (
+    <Spinner color="blue" />
+  ) : (
     <Container>
       <Header>
         <Body>
@@ -118,7 +126,10 @@ const TodoScreen = ({
         <Right>
           <Button
             transparent
-            onPress={() => handleLogout()}
+            onPress={() => {
+              setSpinner(true);
+              handleLogout();
+            }}
             style={{ marginRight: 4 }}
           >
             <Icon name="power" />
@@ -155,6 +166,7 @@ const mapStateToProps = (state) => {
   return {
     name: givenName,
     imageUrl: photoUrl,
+    spinning: state.spinning,
   };
 };
 const styles = StyleSheet.create({
@@ -184,6 +196,8 @@ const styles = StyleSheet.create({
     marginRight: 2,
   },
 });
-export default connect(mapStateToProps, { setUserProfile, handleLogout })(
-  TodoScreen
-);
+export default connect(mapStateToProps, {
+  setUserProfile,
+  handleLogout,
+  setSpinner,
+})(TodoScreen);

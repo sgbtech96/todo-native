@@ -5,11 +5,19 @@ import { setUserProfile } from "../redux/actions/profile";
 import { googleLogin } from "../redux/actions/auth";
 import { connect } from "react-redux";
 import ENV from "../../config";
-import { Container, H2, Text, Button, Icon } from "native-base";
+import { Container, H2, Text, Button, Icon, Spinner } from "native-base";
 import * as Animatable from "react-native-animatable";
+import { setSpinner } from "../redux/actions/spinner";
 
-const SplashScreen = ({ navigation, setUserProfile, googleLogin }) => {
+const SplashScreen = ({
+  navigation,
+  setUserProfile,
+  googleLogin,
+  setSpinner,
+  spinning,
+}) => {
   async function signInWithGoogleAsync() {
+    setSpinner(true);
     try {
       const result = await Google.logInAsync({
         androidClientId: `${ENV.GOOGLE_ANDROID_CLIENT_ID}`,
@@ -20,6 +28,7 @@ const SplashScreen = ({ navigation, setUserProfile, googleLogin }) => {
       if (result.type === "success") {
         googleLogin(result.idToken);
         setUserProfile(result.user);
+        setSpinner(false);
         return result.accessToken;
       } else {
         return { cancelled: true };
@@ -29,7 +38,9 @@ const SplashScreen = ({ navigation, setUserProfile, googleLogin }) => {
     }
   }
 
-  return (
+  return spinning ? (
+    <Spinner color="blue" />
+  ) : (
     <Container style={styles.container}>
       <StatusBar backgroundColor="#410093" barStyle="light-content" />
       <Container style={styles.header}>
@@ -54,7 +65,16 @@ const SplashScreen = ({ navigation, setUserProfile, googleLogin }) => {
   );
 };
 
-export default connect(null, { setUserProfile, googleLogin })(SplashScreen);
+const mapStateToProps = (state) => {
+  return {
+    spinning: state.spinning,
+  };
+};
+export default connect(mapStateToProps, {
+  setUserProfile,
+  googleLogin,
+  setSpinner,
+})(SplashScreen);
 
 const { height } = Dimensions.get("screen");
 const height_logo = height * 0.18;
@@ -76,7 +96,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 50,
-    paddingHorizontal: 80
+    paddingHorizontal: 80,
   },
   logo: {
     width: height_logo + 15,

@@ -25,6 +25,7 @@ export const handleLogout = () => async (dispatch) => {
   dispatch(handleLoading(Types.LOGIN_STATUS_REQUEST));
   try {
     const res = await get(`/api/v1/onboarding/logout`);
+    dispatch({ type: "TOGGLE_SPINNER", payload: false });
     if (res.type === "success") {
       console.log(res);
       await AsyncStorage.removeItem("id_token");
