@@ -45,9 +45,7 @@ const SplashScreen = ({
       <StatusBar backgroundColor="#410093" barStyle="light-content" />
       <Container style={styles.header}>
         <H2 style={{ color: "#fff" }}>Basic Todo Application</H2>
-        <Text style={{ color: "#fff", marginBottom: 24 }}>
-          -By Siddhant Gandhi
-        </Text>
+        <Text style={{ color: "#fff", marginBottom: 24 }}>-By Siddhant Gandhi</Text>
         <Animatable.Image
           animation="bounceIn"
           source={require("../../assets/logo.png")}

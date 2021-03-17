@@ -21,16 +21,16 @@ import { setSpinner } from "../redux/actions/spinner";
 const EditScreen = ({ route, navigation, setSpinner, spinning }) => {
   const { type } = route.params;
   let todo;
-  if (type === "edit") todo = route.params.todo;
+  if (type === "edit") {todo = route.params.todo;}
   const [text, setText] = useState(type === "edit" ? todo.text : "");
   const handleSave = async () => {
     setSpinner(true);
     try {
       let res;
-      if (type === "create") res = await post(`/api/v1/todos/create`, { text });
-      else res = await put(`/api/v1/todos/edit/${todo.todoId}`, { text });
+      if (type === "create") {res = await post(`/api/v1/todos/create`, { text });}
+      else {res = await put(`/api/v1/todos/edit/${todo.todoId}`, { text });}
       setSpinner(false);
-      if (res.type === "success") navigation.navigate("Todo");
+      if (res.type === "success") {navigation.navigate("Todo");}
     } catch (e) {
       console.log(e.message);
     }

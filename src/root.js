@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AuthStackScreen from "./Navigators/AuthStack";
-import DashboardStackScreen from "./Navigators/DashboardStack";
+import AuthStackScreen from "./navigators/AuthStack";
+import DashboardStackScreen from "./navigators/DashboardStack";
 import { connect } from "react-redux";
 import { updateLoginStatus } from "./redux/actions/auth";
 

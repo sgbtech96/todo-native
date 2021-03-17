@@ -65,8 +65,7 @@ const TodoScreen = ({
                 todo: item,
               })
             }
-            style={{ marginRight: 8 }}
-          >
+            style={{ marginRight: 8 }}>
             <Icon name="settings" />
             <Text>Edit</Text>
           </Button>
@@ -109,7 +108,7 @@ const TodoScreen = ({
     try {
       const res = await get(`/api/v1/todos/all`);
       console.log(res);
-      if (res.type === "success") setTodos(res.data);
+      if (res.type === "success") {setTodos(res.data);}
     } catch (e) {
       console.log(e.message);
     }
@@ -130,8 +129,7 @@ const TodoScreen = ({
               setSpinner(true);
               handleLogout();
             }}
-            style={{ marginRight: 4 }}
-          >
+            style={{ marginRight: 4 }}>
             <Icon name="power" />
           </Button>
           <Thumbnail small source={{ uri: imageUrl }} />
@@ -146,8 +144,7 @@ const TodoScreen = ({
               type: "create",
             })
           }
-          style={{ marginBottom: 8 }}
-        >
+          style={{ marginBottom: 8 }}>
           <Text>Create a Todo</Text>
           <Icon name="add" />
         </Button>
