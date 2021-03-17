@@ -44,7 +44,7 @@ const TodoScreen = ({
         setTodos(tmpTodos);
       }
     } catch (e) {
-      console.log(e.message);
+      console.error(e.message);
     }
   };
   const Item = ({ item }) => (
@@ -107,10 +107,10 @@ const TodoScreen = ({
   const fetchTodos = async () => {
     try {
       const res = await get(`/api/v1/todos/all`);
-      console.log(res);
+      // console.log(res);
       if (res.type === "success") {setTodos(res.data);}
     } catch (e) {
-      console.log(e.message);
+      console.error(e.message);
     }
   };
 

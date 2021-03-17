@@ -21,7 +21,7 @@ function Root({ isLoggedIn, updateLoginStatus }) {
   }, []);
 
   useEffect(() => {
-    console.log("isLoggedIn", isLoggedIn);
+    // console.log("isLoggedIn", isLoggedIn);
   }, [isLoggedIn]);
 
   return spinning ? (

@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const googleLogin = (idToken) => async (dispatch) => {
   dispatch(handleLoading(Types.LOGIN_STATUS_REQUEST));
-  console.log("login action");
+  // console.log("login action");
   try {
     const res = await post(`/api/v1/onboarding/googleLogin`, { idToken });
     if (res.type === "success") {
@@ -27,7 +27,7 @@ export const handleLogout = () => async (dispatch) => {
     const res = await get(`/api/v1/onboarding/logout`);
     dispatch({ type: "TOGGLE_SPINNER", payload: false });
     if (res.type === "success") {
-      console.log(res);
+      // console.log(res);
       await AsyncStorage.removeItem("id_token");
       dispatch(handleData(Types.LOGIN_STATUS_SUCCESS, false));
     }

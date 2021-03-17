@@ -32,7 +32,7 @@ const EditScreen = ({ route, navigation, setSpinner, spinning }) => {
       setSpinner(false);
       if (res.type === "success") {navigation.navigate("Todo");}
     } catch (e) {
-      console.log(e.message);
+      console.error(e.message);
     }
   };
   return spinning ? (
