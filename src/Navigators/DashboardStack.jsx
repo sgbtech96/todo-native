@@ -6,24 +6,15 @@ import { Button } from "react-native";
 import { get } from "../utils/request";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { connect } from "react-redux";
-import { handleLogout } from "../redux/actions/auth";
 
 const DashboardStack = createStackNavigator();
-const DashboardStackScreen = ({ handleLogout }) => {
+const DashboardStackScreen = () => {
   return (
-    <DashboardStack.Navigator>
-      <DashboardStack.Screen
-        name="Todo"
-        component={TodoScreen}
-        options={{
-          headerRight: () => (
-            <Button onPress={() => handleLogout()} title="Logout" />
-          ),
-        }}
-      />
+    <DashboardStack.Navigator headerMode="none">
+      <DashboardStack.Screen name="Todo" component={TodoScreen} />
       <DashboardStack.Screen name="Edit" component={EditScreen} />
     </DashboardStack.Navigator>
   );
 };
 
-export default connect(null, { handleLogout })(DashboardStackScreen);
+export default connect(null, {})(DashboardStackScreen);

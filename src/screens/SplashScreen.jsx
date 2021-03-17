@@ -1,10 +1,24 @@
 import * as React from "react";
 import * as Google from "expo-google-app-auth";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet } from "react-native";
 import { setUserProfile } from "../redux/actions/profile";
 import { googleLogin } from "../redux/actions/auth";
 import { connect } from "react-redux";
 import ENV from "../../config";
+import {
+  Container,
+  Header,
+  Content,
+  Card,
+  CardItem,
+  Body,
+  H3,
+  Text,
+  Button,
+  Icon,
+  Right,
+  Title,
+} from "native-base";
 
 const SplashScreen = ({ navigation, setUserProfile, googleLogin }) => {
   async function signInWithGoogleAsync() {
@@ -28,13 +42,18 @@ const SplashScreen = ({ navigation, setUserProfile, googleLogin }) => {
   }
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Siddhant's skeleton Todo App</Text>
-      <Button
-        title="Login with Google"
-        onPress={() => signInWithGoogleAsync()}
-      />
-    </View>
+    <Container>
+      <Header>
+        <Body>
+          <Title>Todo App</Title>
+        </Body>
+      </Header>
+
+      <Button primary iconRight onPress={() => signInWithGoogleAsync()}>
+        <Text>Login/Signup</Text>
+        <Icon name="logo-google-plus" />
+      </Button>
+    </Container>
   );
 };
 

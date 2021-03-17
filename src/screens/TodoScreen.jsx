@@ -1,19 +1,33 @@
 import React, { useState, useEffect } from "react";
+import { FlatList, StyleSheet } from "react-native";
 import {
-  FlatList,
-  StyleSheet,
-  View,
+  Container,
+  Header,
+  Content,
+  Card,
+  CardItem,
+  Body,
+  H3,
   Text,
-  TouchableOpacity,
-  SafeAreaView,
   Button,
-} from "react-native";
+  Icon,
+  Right,
+  Title,
+  Thumbnail,
+} from "native-base";
 import { connect } from "react-redux";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { get, put } from "../utils/request";
 import { setUserProfile } from "../redux/actions/profile";
+import { handleLogout } from "../redux/actions/auth";
 
-const TodoScreen = ({ navigation, name, imageUrl, setUserProfile }) => {
+const TodoScreen = ({
+  navigation,
+  name,
+  imageUrl,
+  setUserProfile,
+  handleLogout,
+}) => {
   const isFocused = useIsFocused();
   const [todos, setTodos] = useState([]);
   const handleDelete = async (todoId) => {
@@ -28,19 +42,35 @@ const TodoScreen = ({ navigation, name, imageUrl, setUserProfile }) => {
     }
   };
   const Item = ({ item }) => (
-    <View style={styles.todo}>
-      <Text style={styles.title}>{item.text}</Text>
-      <Button
-        title="Edit"
-        onPress={() =>
-          navigation.navigate("Edit", {
-            type: "edit",
-            todo: item,
-          })
-        }
-      />
-      <Button title="Delete" onPress={() => handleDelete(item.todoId)} />
-    </View>
+    <Content>
+      <Card>
+        <CardItem>
+          <Body>
+            <H3>{item.text}</H3>
+          </Body>
+        </CardItem>
+        <CardItem footer>
+          <Button
+            iconLeft
+            primary
+            onPress={() =>
+              navigation.navigate("Edit", {
+                type: "edit",
+                todo: item,
+              })
+            }
+            style={{ marginRight: 8 }}
+          >
+            <Icon name="settings" />
+            <Text>Edit</Text>
+          </Button>
+          <Button iconLeft danger onPress={() => handleDelete(item.todoId)}>
+            <Icon name="trash" />
+            <Text>Delete</Text>
+          </Button>
+        </CardItem>
+      </Card>
+    </Content>
   );
 
   const renderItem = ({ item }) => {
@@ -60,7 +90,7 @@ const TodoScreen = ({ navigation, name, imageUrl, setUserProfile }) => {
     if (!name) {
       fetchMyProfile();
     } else {
-      navigation.setOptions({ title: `Hi, ${name}` });
+      // navigation.setOptions({ title: `Hi, ${name}` });
     }
   }, [name]);
   useEffect(() => {
@@ -80,21 +110,43 @@ const TodoScreen = ({ navigation, name, imageUrl, setUserProfile }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Button
-        title="Create a todo"
-        onPress={() =>
-          navigation.navigate("Edit", {
-            type: "create",
-          })
-        }
-      />
-      <FlatList
-        data={todos}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.todoId}
-      />
-    </SafeAreaView>
+    <Container>
+      <Header>
+        <Body>
+          <Title>Hi, {name}</Title>
+        </Body>
+        <Right>
+          <Button
+            transparent
+            onPress={() => handleLogout()}
+            style={{ marginRight: 4 }}
+          >
+            <Icon name="power" />
+          </Button>
+          <Thumbnail small source={{ uri: imageUrl }} />
+        </Right>
+      </Header>
+      <Container style={styles.container}>
+        <Button
+          iconRight
+          success
+          onPress={() =>
+            navigation.navigate("Edit", {
+              type: "create",
+            })
+          }
+          style={{ marginBottom: 8 }}
+        >
+          <Text>Create a Todo</Text>
+          <Icon name="add" />
+        </Button>
+        <FlatList
+          data={todos}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.todoId}
+        />
+      </Container>
+    </Container>
   );
 };
 
@@ -109,7 +161,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
     padding: 12,
   },
   item: {
@@ -133,4 +184,6 @@ const styles = StyleSheet.create({
     marginRight: 2,
   },
 });
-export default connect(mapStateToProps, { setUserProfile })(TodoScreen);
+export default connect(mapStateToProps, { setUserProfile, handleLogout })(
+  TodoScreen
+);

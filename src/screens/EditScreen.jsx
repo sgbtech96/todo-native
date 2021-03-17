@@ -1,18 +1,24 @@
 import React, { useState } from "react";
+import { StyleSheet } from "react-native";
 import {
-  StyleSheet,
+  Container,
+  Header,
+  Body,
   Text,
-  View,
-  TextInput,
   Button,
-} from "react-native";
+  Icon,
+  Left,
+  Right,
+  Title,
+  Input,
+  Item,
+} from "native-base";
 import { post, put } from "../utils/request";
 
 const EditScreen = ({ route, navigation }) => {
   const { type } = route.params;
   let todo;
   if (type === "edit") todo = route.params.todo;
-  console.log(todo);
   const [text, setText] = useState(type === "edit" ? todo.text : "");
   const handleSave = async () => {
     try {
@@ -25,16 +31,34 @@ const EditScreen = ({ route, navigation }) => {
     }
   };
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        onChangeText={(e) => {
-          setText(e);
-        }}
-        value={text}
-      />
-      <Button title="Save" onPress={handleSave} />
-    </View>
+    <Container>
+      <Header>
+        <Left>
+          <Button transparent onPress={() => navigation.navigate("Todo")}>
+            <Icon name="arrow-back" />
+          </Button>
+        </Left>
+        <Body>
+          <Title>Create/Edit</Title>
+        </Body>
+        <Right />
+      </Header>
+      <Container style={styles.container}>
+        <Item style={{ marginBottom: 8 }}>
+          <Input
+            placeholder="Type your todo..."
+            onChangeText={(e) => {
+              setText(e);
+            }}
+            value={text}
+          />
+        </Item>
+        <Button iconRight success onPress={handleSave}>
+          <Text>Save Todo</Text>
+          <Icon name="save" />
+        </Button>
+      </Container>
+    </Container>
   );
 };
 
@@ -43,12 +67,6 @@ export default EditScreen;
 const styles = StyleSheet.create({
   container: {
     padding: 12,
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 12,
-    backgroundColor: "#fff",
+    alignItems: "center",
   },
 });

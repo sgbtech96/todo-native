@@ -7,7 +7,7 @@ const AuthStack = createStackNavigator();
 
 const AuthStackScreen = () => {
   return (
-    <AuthStack.Navigator>
+    <AuthStack.Navigator headerMode="none">
       <AuthStack.Screen name="Splash" component={SplashScreen} />
     </AuthStack.Navigator>
   );
