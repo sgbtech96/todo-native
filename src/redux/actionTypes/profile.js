@@ -1,0 +1,2 @@
+export const SET_USER_PROFILE = "SET_USER_PROFILE";
+export const SET_USER_PROFILE_SUCCESS = `${SET_USER_PROFILE}.success`;
