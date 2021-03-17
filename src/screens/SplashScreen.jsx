@@ -1,24 +1,12 @@
 import * as React from "react";
 import * as Google from "expo-google-app-auth";
-import { StyleSheet } from "react-native";
+import { StyleSheet, StatusBar, Dimensions } from "react-native";
 import { setUserProfile } from "../redux/actions/profile";
 import { googleLogin } from "../redux/actions/auth";
 import { connect } from "react-redux";
 import ENV from "../../config";
-import {
-  Container,
-  Header,
-  Content,
-  Card,
-  CardItem,
-  Body,
-  H3,
-  Text,
-  Button,
-  Icon,
-  Right,
-  Title,
-} from "native-base";
+import { Container, H2, Text, Button, Icon } from "native-base";
+import * as Animatable from "react-native-animatable";
 
 const SplashScreen = ({ navigation, setUserProfile, googleLogin }) => {
   async function signInWithGoogleAsync() {
@@ -42,20 +30,56 @@ const SplashScreen = ({ navigation, setUserProfile, googleLogin }) => {
   }
 
   return (
-    <Container>
-      <Header>
-        <Body>
-          <Title>Todo App</Title>
-        </Body>
-      </Header>
-
-      <Button primary iconRight onPress={() => signInWithGoogleAsync()}>
-        <Text>Login/Signup</Text>
-        <Icon name="logo-google-plus" />
-      </Button>
+    <Container style={styles.container}>
+      <StatusBar backgroundColor="#410093" barStyle="light-content" />
+      <Container style={styles.header}>
+        <H2 style={{ color: "#fff" }}>Basic Todo Application</H2>
+        <Text style={{ color: "#fff", marginBottom: 24 }}>
+          -By Siddhant Gandhi
+        </Text>
+        <Animatable.Image
+          animation="bounceIn"
+          source={require("../../assets/logo.png")}
+          style={styles.logo}
+          resizeMode="stretch"
+        />
+      </Container>
+      <Animatable.View style={styles.footer} animation="fadeInUpBig">
+        <Button primary iconRight onPress={() => signInWithGoogleAsync()}>
+          <Text>Login with Google</Text>
+          <Icon name="person" />
+        </Button>
+      </Animatable.View>
     </Container>
   );
 };
 
 export default connect(null, { setUserProfile, googleLogin })(SplashScreen);
-const styles = StyleSheet.create({});
+
+const { height } = Dimensions.get("screen");
+const height_logo = height * 0.18;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#410093",
+  },
+  header: {
+    flex: 4,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#410093",
+  },
+  footer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingVertical: 50,
+    paddingHorizontal: 80
+  },
+  logo: {
+    width: height_logo + 15,
+    height: height_logo,
+  },
+});
