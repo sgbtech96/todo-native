@@ -28,7 +28,7 @@ const SplashScreen = ({
       if (result.type === "success") {
         googleLogin(result.idToken);
         setUserProfile(result.user);
-        setSpinner(false);
+        // setSpinner(false);
         return result.accessToken;
       } else {
         return { cancelled: true };

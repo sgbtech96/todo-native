@@ -11,6 +11,7 @@ export const googleLogin = (idToken) => async (dispatch) => {
     if (res.type === "success") {
       await AsyncStorage.setItem("id_token", res.data.token);
       dispatch(handleData(Types.LOGIN_STATUS_SUCCESS, true));
+      dispatch({ type: "TOGGLE_SPINNER", payload: false });
     } else throw new Error();
   } catch (e) {
     dispatch(handleError(Types.LOGIN_STATUS_FAILED, e));
